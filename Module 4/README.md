@@ -2,12 +2,6 @@
 
 ## RTL Design Workshop
 
-This folder contains my Module 4 documentation and experiment work.
-
-# Module 4
-
-## RTL Design Workshop
-
 ### Objective
 
 To understand RTL design concepts and implement digital designs using Verilog HDL.
