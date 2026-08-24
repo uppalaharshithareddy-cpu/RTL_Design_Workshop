@@ -1,1 +1,28 @@
+# 🚀 Module 3 – Combinational Optimization
 
+This section demonstrates basic **combinational logic optimization** using **Yosys** and the **SKY130 standard-cell library**.
+
+---
+
+## 🎯 Objective
+
+The objective is to understand how **Yosys optimizes combinational RTL** and maps the optimized logic to **SKY130 standard cells**.
+
+### 📂 Examples Used
+
+* `opt_check.v`
+* `opt_check2.v`
+* `opt_check3.v`
+
+> ℹ️ **Note:** No simulation is required for these examples.
+
+---
+
+# 1️⃣ `opt_check`
+
+## 🧩 RTL
+
+```verilog
+module opt_check(input a, input b, output y);
+    assign y = a & b;
+endmodule
