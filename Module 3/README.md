@@ -2,12 +2,6 @@
 
 ## RTL Design Workshop
 
-This folder contains my Module 3 documentation and experiment work.
-
-# Module 3
-
-## RTL Design Workshop
-
 ### Objective
 
 The objective of this module is to understand RTL design concepts and their implementation using Verilog HDL.
