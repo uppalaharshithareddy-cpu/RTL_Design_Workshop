@@ -254,3 +254,4 @@ The "opt_check3" example also demonstrates how Yosys can optimize logic describe
 - Relationship between RTL, synthesis, and target technology
 
 «Overall: This exercise provides a basic understanding of the relationship between RTL description → logic optimization → synthesis → technology mapping → standard-cell implementation.»
+
