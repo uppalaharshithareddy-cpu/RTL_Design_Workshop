@@ -22,3 +22,28 @@ RTL_Design_Workshop
 └── README.md
 
 
+## Contents
+
+### Day 1
+
+Basic RTL design and implementation of a 2:1 Multiplexer using Verilog HDL.
+
+### Day 2
+
+Workshop activities and experiment documentation.
+
+### Module 3
+
+Module 3 experiment documentation and RTL design work.
+
+### Module 4
+
+Module 4 experiment documentation and RTL design work.
+
+### Module 5
+
+Module 5 experiment documentation and RTL design work.
+
+## Author
+
+Harshitha Reddy
