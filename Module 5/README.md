@@ -102,6 +102,9 @@ Output
 
 ![comp_case waveform](comp_case_waveform.png)
 
+<img width="1600" height="744" alt="image" src="https://github.com/user-attachments/assets/153fc9d3-bace-40ce-8800-959770ff0160" />
+
+
 ## 3. DEMUX Using Case
 
 The demux_case experiment demonstrates a demultiplexer
@@ -121,6 +124,9 @@ Selected Output
 ### Waveform
 
 ![demux_case waveform](demux_case_waveform.png)
+
+<img width="1600" height="710" alt="image" src="https://github.com/user-attachments/assets/015e3ace-c01e-49c4-a846-5c2ceaa95889" />
+
 
 ## 4. Incomplete If and Latch Inference
 
@@ -144,6 +150,9 @@ Latch
 
 ![incomp_if waveform](incomp_if_waveform.png)
 
+<img width="1600" height="729" alt="image" src="https://github.com/user-attachments/assets/e4f8028e-746a-44b4-8ded-5131e68d7e69" />
+
+
 ## 5. Incomplete If – Second Case
 
 The incomp_if2 experiment provides another example of
@@ -155,6 +164,9 @@ can affect the hardware inferred during synthesis.
 ### Waveform
 
 ![incomp_if2 waveform](incomp_if2_waveform.png)
+
+<img width="1600" height="719" alt="image" src="https://github.com/user-attachments/assets/93a4e0cc-3fcc-4c03-b0af-baab020afbfb" />
+
 
 ## 6. MUX Using Generate
 
@@ -175,6 +187,9 @@ MUX Hardware
 ### Waveform
 
 ![mux_generate waveform](mux_generate_waveform.png)
+
+<img width="1600" height="717" alt="image" src="https://github.com/user-attachments/assets/4f6ef80c-0177-41f6-9fbe-fd328163a270" />
+
 
 ## 7. Partial Case Assignment
 
@@ -201,6 +216,9 @@ Logic          Latch
 
 ![partial case waveform](partial_case_assign_waveform.png)
 
+<img width="1600" height="707" alt="image" src="https://github.com/user-attachments/assets/b8fd45f0-f1b1-4a38-97fd-08e98add837e" />
+
+
 ## 8. Ripple Carry Adder
 
 The Ripple Carry Adder experiment demonstrates a multi-bit
@@ -208,6 +226,9 @@ arithmetic circuit constructed using full-adder stages.
 
 The carry output from one stage becomes the carry input
 of the next stage.
+
+<img width="1600" height="726" alt="image" src="https://github.com/user-attachments/assets/a7c2b07b-ada9-4197-8a07-e43da9e3f82d" />
+
 
 ### Concept
 
