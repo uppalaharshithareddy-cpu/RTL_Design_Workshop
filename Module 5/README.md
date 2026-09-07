@@ -227,9 +227,6 @@ arithmetic circuit constructed using full-adder stages.
 The carry output from one stage becomes the carry input
 of the next stage.
 
-<img width="1600" height="726" alt="image" src="https://github.com/user-attachments/assets/a7c2b07b-ada9-4197-8a07-e43da9e3f82d" />
-
-
 ### Concept
 
 A + B + Cin
@@ -243,6 +240,9 @@ Next Full Adder
 ### Waveform
 
 ![Ripple Carry Adder waveform](rca_waveform.png)
+
+<img width="1600" height="726" alt="image" src="https://github.com/user-attachments/assets/27f3fc59-4b53-4c5e-806c-cb01623dc8bc" />
+
 
 ## 🧠 Learning Outcomes
 
