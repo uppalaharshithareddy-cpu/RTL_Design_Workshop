@@ -76,6 +76,9 @@ The waveform generated from the RTL simulation is shown below.
 
 ![bad_case waveform](bad_case_waveform.png)
 
+<img width="1600" height="719" alt="image" src="https://github.com/user-attachments/assets/3b7327e9-b859-4f9e-a64b-f89e07258c60" />
+
+
 ## 2. Case-Based Combinational Logic
 
 The comp_case experiment demonstrates combinational logic
