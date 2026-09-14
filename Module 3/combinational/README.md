@@ -158,7 +158,8 @@ The result can be used to understand:
 
 Add your screenshot here:
 
-![Yosys Synthesis Result](./images/opt_check.png)
+![Yosys Synthesis Result]<img width="1599" height="769" alt="image" src="https://github.com/user-attachments/assets/c7925b8a-568b-4632-a33c-8ae8e172a923" />
+
 
 ---
 
