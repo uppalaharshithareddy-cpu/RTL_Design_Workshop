@@ -12,40 +12,43 @@ This folder contains my Day 2 workshop documentation and experiment work.
 
 ## Simulation and Synthesis
 
-DAY 2 – Timing Libraries, Hierarchical vs Flat Synthesis and Efficient Flip-Flop Coding Styles
-
-1. Overview
-
-Day 2 of the RTL Design Workshop focuses on understanding standard-cell timing libraries, hierarchical and flat synthesis, sub-module level synthesis, and efficient flip-flop coding styles.
-
-The main topics covered are:
-
-- Understanding the SKY130 standard-cell library
-- Understanding the ".lib" timing library
-- PVT variations
-- Contents of the Liberty file
-- Different flavours of standard cells
-- Hierarchical synthesis
-- Flat synthesis
-- Sub-module level synthesis
-- Understanding flip-flops
-- Asynchronous reset flip-flops
-- Synchronous reset flip-flops
-- Simulation using Icarus Verilog and GTKWave
-- Synthesis using Yosys
-- Basic synthesis optimization techniques
+🟦 DAY 2 – Timing Libraries, Hierarchical vs Flat Synthesis and Flip-Flop Coding Styles
 
 ---
 
-2. SKY130 Standard Cell Library
+🔹 1. OVERVIEW
 
-2.1 What is SKY130?
+Day 2 focuses on understanding timing libraries, standard cells, synthesis techniques, and sequential logic.
 
-SKY130 is an open-source 130 nm semiconductor technology platform associated with the SkyWater process.
+Topics Covered
 
-In RTL synthesis, the RTL code is converted into a gate-level representation using standard cells from a technology library.
+- SKY130 PDK and Standard Cell Library
+- Timing Library (".lib")
+- PVT – Process, Voltage and Temperature
+- Contents of the Liberty File
+- Standard Cell Characteristics
+- Hierarchical Synthesis
+- Flat Synthesis
+- Sub-Module Level Synthesis
+- D Flip-Flop
+- Asynchronous Reset
+- Synchronous Reset
+- Simulation using Icarus Verilog
+- Waveform Analysis using GTKWave
+- Synthesis using Yosys
+- Basic Optimization Techniques
 
-The standard-cell library provides different types of cells such as:
+---
+
+🔹 2. SKY130 PDK
+
+What is SKY130?
+
+SKY130 is an open-source 130 nm semiconductor technology used for designing and implementing integrated circuits.
+
+The technology provides a collection of standard cells that can be used during digital synthesis.
+
+Standard cells include:
 
 - AND gates
 - OR gates
@@ -55,42 +58,36 @@ The standard-cell library provides different types of cells such as:
 - Buffers
 - Multiplexers
 - Flip-flops
-- Other logic cells
-
-For this workshop, the SKY130 high-density standard-cell library is used.
 
 ---
 
-2.2 Standard Cell Library
+🔹 3. STANDARD CELL LIBRARY
 
-A standard-cell library contains pre-characterized cells that can be used to implement digital circuits.
+A standard-cell library contains pre-designed and characterized cells used during synthesis.
 
-Each cell has information related to:
+Each cell contains important information such as:
 
-- Functionality
-- Area
-- Power
-- Timing
-- Input capacitance
-- Output transition
-- Leakage power
-- Pin information
+Parameter| Description
+Function| Logic operation performed by the cell
+Area| Physical area occupied by the cell
+Power| Power consumed by the cell
+Timing| Delay and timing characteristics
+Capacitance| Input/output loading information
+Leakage Power| Power consumed when the cell is not switching
 
-The synthesis tool uses this information to select appropriate cells while converting RTL into a gate-level netlist.
+The synthesis tool uses this information to select suitable cells for the RTL design.
 
 ---
 
-3. Timing Library
-
-3.1 SKY130 ".lib" File
+🔹 4. SKY130 TIMING LIBRARY
 
 The timing library used in the workshop is:
 
-"sky130_fd_sc_hd__tt_025C_1v80.lib"
+sky130_fd_sc_hd__tt_025C_1v80.lib
 
-The name of the library provides information about the technology and operating conditions.
+Library Name Explanation
 
-Term| Meaning
+Part| Meaning
 sky130| 130 nm technology
 fd| SkyWater foundry
 sc| Standard Cell
@@ -99,154 +96,61 @@ tt| Typical Process
 025C| 25°C temperature
 1v80| 1.80 V supply voltage
 
-The "tt_025C_1v80" part represents a particular PVT operating corner.
+PVT
 
----
+PVT = Process + Voltage + Temperature
 
-3.2 PVT
-
-PVT stands for:
-
-- P – Process
-- V – Voltage
-- T – Temperature
-
-Process
-
-Process variation occurs because semiconductor manufacturing cannot produce every chip exactly identically.
-
-Voltage
-
-The behaviour of a circuit changes when the supply voltage changes.
-
-Temperature
-
-The electrical characteristics of semiconductor devices change with temperature.
-
-Therefore, standard-cell libraries are characterized for different PVT conditions so that the circuit behaviour can be analysed under different operating conditions.
-
----
-
-4. Opening the Timing Library
-
-The library file can be opened using:
-
-gvim ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-Useful commands while inspecting the library:
-
-:syn off
-:se nu
-
-- ":syn off" disables syntax highlighting.
-- ":se nu" displays line numbers.
-
-To search for a particular cell:
-
-/cell
-
-The ".lib" file contains information about many standard cells and their electrical and timing characteristics.
+PVT conditions affect the performance of standard cells.
 
 "SKY130 Timing Library" (./images/lib_file.png)
 
 ---
 
-5. Contents of the ".lib" File
+🔹 5. LIBERTY ".lib" FILE
 
-The Liberty file contains important information required for synthesis and timing analysis.
+The Liberty file (".lib") contains information required by synthesis and timing analysis tools.
 
-Important information includes:
+It provides information about the electrical and timing characteristics of standard cells.
 
-5.1 Library Information
-
-General information about the library, such as:
-
-- Technology
-- Units
-- Operating conditions
-- Delay model
-
-5.2 Cell Information
-
-Each standard cell has its own section in the library.
-
-The cell section contains information such as:
+Important information in a ".lib" file:
 
 - Cell name
 - Cell area
-- Leakage power
-- Cell functionality
-- Pin information
-- Timing information
-
-5.3 Pin Information
-
-Each input and output pin can have information such as:
-
-- Direction
-- Capacitance
-- Function
-- Timing characteristics
 - Power information
-
-5.4 Area
-
-The area value represents the physical size associated with a standard cell.
-
-5.5 Power
-
-The library contains information related to:
-
-- Internal power
 - Leakage power
-
-5.6 Timing
-
-Timing information describes how the cell behaves when signals propagate through it.
-
-It can include:
-
-- Cell delay
+- Input capacitance
+- Output capacitance
+- Cell function
+- Propagation delay
 - Rise transition
 - Fall transition
 - Setup time
 - Hold time
-
-5.7 Capacitance
-
-Input capacitance indicates the load presented by a cell input.
-
-Higher capacitance can affect the delay and drive requirements of the circuit.
+- Pin information
 
 ---
 
-6. Different Flavours of Standard Cells
+🔹 6. CELL CHARACTERISTICS
 
-The library contains different versions or flavours of cells having the same basic functionality.
+Different versions of the same standard cell may have different:
 
-For example, different versions of an AND gate can have different drive strengths and physical characteristics.
+- Drive strength
+- Area
+- Power
+- Delay
+- Input capacitance
 
-A higher-drive cell can provide better drive capability but may require more area and power.
+The synthesis tool selects an appropriate cell according to the requirements of the design.
 
-Therefore, synthesis involves selecting suitable cells according to the requirements of the design.
-
-"Standard Cell Comparison" (./images/cell_comparison.png)
+For example, a higher-drive cell can drive a larger load, but it may require more area and power.
 
 ---
 
-7. Hierarchical and Flat Synthesis
+🔹 7. HIERARCHICAL SYNTHESIS
 
-7.1 Hierarchical Synthesis
+In hierarchical synthesis, the module structure of the RTL design is maintained.
 
-In hierarchical synthesis, the relationship between different modules is maintained.
-
-Consider a design containing:
-
-- "sub_module1"
-- "sub_module2"
-- "multiple_modules"
-
-Example:
+Example
 
 module sub_module2 (
     input a,
@@ -287,59 +191,31 @@ module multiple_modules (
 
 endmodule
 
-Here, the top module contains two sub-modules.
+Here, "multiple_modules" is the top module, while "sub_module1" and "sub_module2" are sub-modules.
 
----
-
-8. Hierarchical Synthesis Using Yosys
-
-First, open Yosys:
-
-yosys
-
-Read the timing library:
+Yosys Commands
 
 read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-Read the Verilog design:
-
 read_verilog multiple_modules.v
-
-Perform synthesis:
-
 synth -top multiple_modules
-
-Map the design using the standard-cell library:
-
 abc -liberty ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-Display the synthesized design:
-
-show multiple_modules
-
-Generate the netlist:
-
-write_verilog -noattr multiple_modules_netlist.v
+show
 
 "Hierarchical Synthesis" (./images/hierarchical.png)
 
 ---
 
-9. Flat Synthesis
+🔹 8. FLAT SYNTHESIS
 
-Flat synthesis removes the hierarchy between the modules and represents the complete design as one flattened module.
+In flat synthesis, the hierarchy between the modules is removed.
 
-The following Yosys command can be used:
+The "flatten" command is used in Yosys:
 
 flatten
 
-After flattening, the hierarchy between the sub-modules is no longer preserved.
+The complete design is represented as a single flattened structure.
 
-The design can then be viewed using:
-
-show multiple_modules
-
-The flattened netlist can be written using:
+Generate Netlist
 
 write_verilog -noattr multiple_modules_flat.v
 
@@ -347,60 +223,40 @@ write_verilog -noattr multiple_modules_flat.v
 
 ---
 
-10. Hierarchical vs Flat Synthesis
+🔹 9. HIERARCHICAL vs FLAT SYNTHESIS
 
-Hierarchical Synthesis| Flat Synthesis
-Module hierarchy is preserved| Module hierarchy is removed
-Sub-modules remain visible| Logic is combined into a flat representation
-Useful for modular designs| Useful when a complete flat representation is required
-Easier to identify sub-modules| Easier to view the complete gate-level structure
+Hierarchical| Flat
+Module hierarchy is maintained| Module hierarchy is removed
+Sub-modules remain identifiable| Complete logic is flattened
+Useful for modular designs| Useful for complete design optimization
+Easier to understand individual modules| Easier to view the complete logic
 
 ---
 
-11. Sub-Module Level Synthesis
+🔹 10. SUB-MODULE LEVEL SYNTHESIS
 
-Sub-module synthesis means synthesizing an individual module instead of synthesizing the complete top-level design.
+A sub-module can be synthesized independently by specifying it as the top module.
 
-This is useful in large designs.
-
-For example, if the design contains many instances of the same sub-module, that sub-module can be synthesized separately and then reused.
-
-It is also useful when the complete design is very large and difficult to synthesize at once.
-
-The top module can be changed in the synthesis command:
+For example:
 
 synth -top sub_module1
 
-This performs synthesis with "sub_module1" as the top module.
+This is useful when:
 
-"Sub Module Synthesis" (./images/submodule.png)
-
----
-
-12. Why Do We Use Flip-Flops?
-
-Combinational circuits can experience glitches because different logic paths can have different propagation delays.
-
-Flip-flops are storage elements that store one bit of information.
-
-A flip-flop changes its stored value according to its clock and control conditions.
-
-Common types include:
-
-- D Flip-Flop
-- JK Flip-Flop
-- SR Flip-Flop
-- T Flip-Flop
-
-In this workshop, D flip-flops with synchronous and asynchronous reset are studied.
+- The design contains many modules.
+- Individual modules need to be tested.
+- A large design needs to be divided into smaller parts.
+- Reusable modules are being developed.
 
 ---
 
-13. D Flip-Flop
+🔹 11. FLIP-FLOP OVERVIEW
 
-A D flip-flop stores the value of the input "D" at the active clock edge.
+A flip-flop is a sequential logic element used to store one bit of information.
 
-Basic Verilog example:
+A D flip-flop stores the value of D at the active clock edge.
+
+Basic D Flip-Flop
 
 module dff (
     input clk,
@@ -415,17 +271,11 @@ end
 
 endmodule
 
-The output "q" changes according to the value of "d" at the rising edge of the clock.
-
 ---
 
-14. D Flip-Flop with Asynchronous Reset
+🔹 12. D FLIP-FLOP WITH ASYNCHRONOUS RESET
 
-An asynchronous reset does not wait for the clock edge.
-
-When reset is asserted, the output is immediately cleared.
-
-Example:
+An asynchronous reset can reset the flip-flop without waiting for the clock edge.
 
 module dff_asyncres (
     input clk,
@@ -444,39 +294,35 @@ end
 
 endmodule
 
-Here, both "posedge clk" and "posedge async_reset" are present in the sensitivity list.
+Important Point
 
-Therefore, the reset can change the output independently of the clock.
+When "async_reset" becomes active, "q" can become "0" immediately.
 
 ---
 
-15. Asynchronous Reset Simulation
+🔹 13. ASYNCHRONOUS RESET – SIMULATION
 
-The design can be simulated using Icarus Verilog.
-
-Example:
+Compile
 
 iverilog dff_asyncres.v tb_dff_asyncres.v
 
-Run the generated simulation:
+Run
 
 ./a.out
 
-A VCD waveform can then be viewed using GTKWave:
+View Waveform
 
 gtkwave dump.vcd
 
-In the waveform, when the asynchronous reset becomes active, the output "q" is cleared without waiting for the next clock edge.
+The waveform shows that the output responds to the reset independently of the clock edge.
 
 "Asynchronous Reset Waveform" (./images/dff_async_waveform.png)
 
 ---
 
-16. D Flip-Flop with Synchronous Reset
+🔹 14. D FLIP-FLOP WITH SYNCHRONOUS RESET
 
-In a synchronous reset flip-flop, reset is checked only at the active clock edge.
-
-Example:
+A synchronous reset is checked only at the active clock edge.
 
 module dff_syncres (
     input clk,
@@ -495,83 +341,96 @@ end
 
 endmodule
 
-Here, the reset is checked only when the positive edge of the clock occurs.
+Important Point
+
+The output changes due to reset only when the active clock edge occurs.
 
 ---
 
-17. Synchronous Reset Simulation
+🔹 15. SYNCHRONOUS RESET – SIMULATION
 
-Compile the design:
+Compile
 
 iverilog dff_syncres.v tb_dff_syncres.v
 
-Run the simulation:
+Run
 
 ./a.out
 
-Open the waveform:
+View Waveform
 
 gtkwave dump.vcd
 
-The important observation is that the output does not immediately respond when reset changes. It responds when the active clock edge occurs.
+The waveform shows that the reset is considered only at the clock edge.
 
 "Synchronous Reset Waveform" (./images/dff_sync_waveform.png)
 
 ---
 
-18. Asynchronous vs Synchronous Reset
+🔹 16. ASYNCHRONOUS vs SYNCHRONOUS RESET
 
 Asynchronous Reset| Synchronous Reset
-Does not depend on clock edge| Depends on clock edge
-Reset can act immediately| Reset acts at active clock edge
-Reset is included in sensitivity list| Reset is normally checked inside the clocked block
-Output can change immediately when reset is asserted| Output changes only at the clock edge
+Acts independently of clock| Depends on clock
+Can reset immediately| Resets at active clock edge
+Reset appears in sensitivity list| Reset is checked inside clocked block
+Output can change immediately| Output waits for clock edge
 
 ---
 
-19. Flip-Flop Synthesis Using Yosys
+🔹 17. FLIP-FLOP SYNTHESIS USING YOSYS
 
-The flip-flop RTL can also be synthesized using Yosys.
+The RTL flip-flop can be converted into a gate-level implementation using Yosys.
 
-Start Yosys:
+Step 1 – Start Yosys
 
 yosys
 
-Read the library:
+Step 2 – Read Timing Library
 
 read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-Read the Verilog file:
+Step 3 – Read Verilog
 
 read_verilog dff_asyncres.v
 
-Synthesize:
+Step 4 – Synthesize
 
 synth -top dff_asyncres
 
-Perform technology mapping:
+Step 5 – Technology Mapping
 
 abc -liberty ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 
-View the synthesized circuit:
+Step 6 – View Circuit
 
 show
 
-Generate the netlist:
+Step 7 – Generate Netlist
 
 write_verilog -noattr dff_asyncres_netlist.v
 
-The same process can be followed for the synchronous reset flip-flop.
-
 "Asynchronous Flip-Flop Synthesis" (./images/dff_async_synthesis.png)
+
+---
+
+🔹 18. SYNCHRONOUS FLIP-FLOP SYNTHESIS
+
+The same synthesis flow can be applied to the synchronous reset flip-flop.
+
+read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog dff_syncres.v
+synth -top dff_syncres
+abc -liberty ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+show
+write_verilog -noattr dff_syncres_netlist.v
 
 "Synchronous Flip-Flop Synthesis" (./images/dff_sync_synthesis.png)
 
 ---
 
-20. Simulation Flow
+🔹 19. SIMULATION FLOW
 
-The Day 2 simulation flow is:
+The overall simulation process is:
 
 Verilog RTL
      ↓
@@ -585,128 +444,101 @@ GTKWave
      ↓
 Waveform Analysis
 
-The waveform is used to verify whether the RTL design behaves as expected.
+Tools Used
+
+Tool| Purpose
+Icarus Verilog| RTL simulation
+GTKWave| Waveform viewing
+Yosys| RTL synthesis
+SKY130 ".lib"| Standard-cell timing/library information
 
 ---
 
-21. Synthesis Flow
+🔹 20. SYNTHESIS FLOW
 
-The synthesis flow is:
-
-Verilog RTL
+RTL Verilog
      ↓
 Yosys
      ↓
-Read SKY130 Liberty Library
+Read Liberty Library
      ↓
 RTL Synthesis
      ↓
 Technology Mapping
      ↓
+Standard Cells
+     ↓
 Gate-Level Netlist
 
-Yosys is used for RTL synthesis, while the SKY130 standard-cell library provides the cells and their characterized information.
+---
+
+🔹 21. OPTIMIZATION TECHNIQUES
+
+During synthesis, Yosys performs different optimizations to obtain an efficient implementation.
+
+Important optimization concepts include:
+
+- Logic simplification
+- Boolean optimization
+- Removal of unnecessary logic
+- Logic sharing
+- Technology mapping
+- Selection of suitable standard cells
+
+The objective is to obtain an efficient implementation while considering factors such as:
+
+Area + Power + Timing
 
 ---
 
-22. Optimization Techniques Observed
+🔹 22. OBSERVATIONS
 
-During synthesis, the synthesis tool can optimize the design instead of directly converting every RTL statement into separate hardware.
+Observation 1
 
-Some common observations include:
+The SKY130 timing library contains important information about standard cells.
 
-- Removing unnecessary logic
-- Simplifying Boolean expressions
-- Sharing common logic
-- Selecting suitable standard cells
-- Optimizing the synthesized netlist
-- Mapping the logic to available library cells
+Observation 2
 
-For example, simple arithmetic operations may sometimes be represented using simpler wiring or logic structures rather than requiring a large dedicated hardware block.
+The ".lib" file contains area, power, capacitance and timing information.
 
----
+Observation 3
 
-23. Important Commands Used
+PVT conditions affect standard-cell behaviour.
 
-Open the library
+Observation 4
 
-gvim ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+Hierarchical synthesis maintains the RTL module structure.
 
-Start Yosys
+Observation 5
 
-yosys
+Flat synthesis removes the module hierarchy.
 
-Read Liberty library
+Observation 6
 
-read_liberty -lib ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+An asynchronous reset can affect the output without waiting for a clock edge.
 
-Read Verilog
+Observation 7
 
-read_verilog <design>.v
+A synchronous reset affects the output only at the active clock edge.
 
-Synthesis
+Observation 8
 
-synth -top <top_module>
-
-Technology mapping
-
-abc -liberty ../my_lib/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-
-Show synthesized design
-
-show
-
-Flatten hierarchy
-
-flatten
-
-Generate netlist
-
-write_verilog -noattr <netlist>.v
-
-Simulate
-
-iverilog <design>.v <testbench>.v
-./a.out
-
-View waveform
-
-gtkwave dump.vcd
+Yosys can synthesize RTL and map it to cells from the SKY130 library.
 
 ---
 
-24. Observations
+🔹 23. CONCLUSION
 
-From the Day 2 experiments, the following observations were made:
+Day 2 provided an understanding of timing libraries, standard cells, synthesis techniques and sequential logic.
 
-1. The ".lib" file contains important timing, power, area and cell information.
+The SKY130 ".lib" timing library was studied along with PVT, cell characteristics, area, power, capacitance and timing information.
 
-2. PVT conditions are important when characterizing standard cells.
+Both hierarchical and flat synthesis were explored using Yosys. The behaviour of D flip-flops with asynchronous and synchronous reset was verified through simulation and waveform analysis.
 
-3. Different standard-cell flavours can have different area, power and timing characteristics.
-
-4. Hierarchical synthesis preserves the module structure.
-
-5. Flat synthesis removes the hierarchy and represents the design as a flattened structure.
-
-6. Sub-module synthesis is useful for modular and large designs.
-
-7. An asynchronous reset can affect the flip-flop output independently of the clock.
-
-8. A synchronous reset affects the flip-flop output only at the active clock edge.
-
-9. Yosys can synthesize RTL and map the design to cells from the SKY130 library.
-
-10. The final synthesized netlist can be inspected to understand how the RTL is implemented using standard cells.
+The complete flow from RTL → Simulation → Synthesis → Technology Mapping → Netlist was understood.
 
 ---
 
-25. Conclusion
+⭐ DAY 2 KEY LEARNING
 
-Day 2 provided an understanding of timing libraries and the role of standard cells in RTL synthesis.
-
-The SKY130 Liberty library was studied to understand PVT conditions, cell information, timing, power, area and capacitance.
-
-Hierarchical, flat and sub-module synthesis were explored using Yosys. The behaviour of D flip-flops with synchronous and asynchronous reset was also studied through simulation and synthesis.
-
-These experiments helped in understanding how Verilog RTL is converted into a technology-mapped gate-level implementation using the SKY130 standard-cell library.
+«RTL design is not only about writing Verilog. The RTL must be understood, simulated, synthesized and mapped to suitable standard cells using technology libraries.»
