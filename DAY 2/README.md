@@ -16,7 +16,7 @@ This folder contains my Day 2 workshop documentation and experiment work.
 
 ---
 
-🔹 1. OVERVIEW
+## 🔹 1. OVERVIEW
 
 Day 2 focuses on understanding timing libraries, standard cells, synthesis techniques, and sequential logic.
 
@@ -40,7 +40,7 @@ Topics Covered
 
 ---
 
-🔹 2. SKY130 PDK
+## 🔹 2. SKY130 PDK
 
 What is SKY130?
 
@@ -61,7 +61,7 @@ Standard cells include:
 
 ---
 
-🔹 3. STANDARD CELL LIBRARY
+## 🔹 3. STANDARD CELL LIBRARY
 
 A standard-cell library contains pre-designed and characterized cells used during synthesis.
 
@@ -79,7 +79,7 @@ The synthesis tool uses this information to select suitable cells for the RTL de
 
 ---
 
-🔹 4. SKY130 TIMING LIBRARY
+## 🔹 4. SKY130 TIMING LIBRARY
 
 The timing library used in the workshop is:
 
@@ -106,7 +106,7 @@ PVT conditions affect the performance of standard cells.
 
 ---
 
-🔹 5. LIBERTY ".lib" FILE
+## 🔹 5. LIBERTY ".lib" FILE
 
 The Liberty file (".lib") contains information required by synthesis and timing analysis tools.
 
@@ -130,7 +130,7 @@ Important information in a ".lib" file:
 
 ---
 
-🔹 6. CELL CHARACTERISTICS
+## 🔹 6. CELL CHARACTERISTICS
 
 Different versions of the same standard cell may have different:
 
@@ -146,11 +146,11 @@ For example, a higher-drive cell can drive a larger load, but it may require mor
 
 ---
 
-🔹 7. HIERARCHICAL SYNTHESIS
+## 🔹 7. HIERARCHICAL SYNTHESIS
 
 In hierarchical synthesis, the module structure of the RTL design is maintained.
 
-Example
+# Example
 
 module sub_module2 (
     input a,
@@ -205,7 +205,7 @@ show
 
 ---
 
-🔹 8. FLAT SYNTHESIS
+## 🔹 8. FLAT SYNTHESIS
 
 In flat synthesis, the hierarchy between the modules is removed.
 
@@ -223,7 +223,7 @@ write_verilog -noattr multiple_modules_flat.v
 
 ---
 
-🔹 9. HIERARCHICAL vs FLAT SYNTHESIS
+## 🔹 9. HIERARCHICAL vs FLAT SYNTHESIS
 
 Hierarchical| Flat
 Module hierarchy is maintained| Module hierarchy is removed
@@ -233,7 +233,7 @@ Easier to understand individual modules| Easier to view the complete logic
 
 ---
 
-🔹 10. SUB-MODULE LEVEL SYNTHESIS
+## 🔹 10. SUB-MODULE LEVEL SYNTHESIS
 
 A sub-module can be synthesized independently by specifying it as the top module.
 
@@ -250,7 +250,7 @@ This is useful when:
 
 ---
 
-🔹 11. FLIP-FLOP OVERVIEW
+## 🔹 11. FLIP-FLOP OVERVIEW
 
 A flip-flop is a sequential logic element used to store one bit of information.
 
@@ -273,7 +273,7 @@ endmodule
 
 ---
 
-🔹 12. D FLIP-FLOP WITH ASYNCHRONOUS RESET
+## 🔹 12. D FLIP-FLOP WITH ASYNCHRONOUS RESET
 
 An asynchronous reset can reset the flip-flop without waiting for the clock edge.
 
@@ -300,7 +300,7 @@ When "async_reset" becomes active, "q" can become "0" immediately.
 
 ---
 
-🔹 13. ASYNCHRONOUS RESET – SIMULATION
+## 🔹 13. ASYNCHRONOUS RESET – SIMULATION
 
 Compile
 
@@ -320,7 +320,7 @@ The waveform shows that the output responds to the reset independently of the cl
 
 ---
 
-🔹 14. D FLIP-FLOP WITH SYNCHRONOUS RESET
+## 🔹 14. D FLIP-FLOP WITH SYNCHRONOUS RESET
 
 A synchronous reset is checked only at the active clock edge.
 
@@ -347,7 +347,7 @@ The output changes due to reset only when the active clock edge occurs.
 
 ---
 
-🔹 15. SYNCHRONOUS RESET – SIMULATION
+## 🔹 15. SYNCHRONOUS RESET – SIMULATION
 
 Compile
 
@@ -367,7 +367,7 @@ The waveform shows that the reset is considered only at the clock edge.
 
 ---
 
-🔹 16. ASYNCHRONOUS vs SYNCHRONOUS RESET
+## 🔹 16. ASYNCHRONOUS vs SYNCHRONOUS RESET
 
 Asynchronous Reset| Synchronous Reset
 Acts independently of clock| Depends on clock
@@ -377,7 +377,7 @@ Output can change immediately| Output waits for clock edge
 
 ---
 
-🔹 17. FLIP-FLOP SYNTHESIS USING YOSYS
+## 🔹 17. FLIP-FLOP SYNTHESIS USING YOSYS
 
 The RTL flip-flop can be converted into a gate-level implementation using Yosys.
 
@@ -413,7 +413,7 @@ write_verilog -noattr dff_asyncres_netlist.v
 
 ---
 
-🔹 18. SYNCHRONOUS FLIP-FLOP SYNTHESIS
+## 🔹 18. SYNCHRONOUS FLIP-FLOP SYNTHESIS
 
 The same synthesis flow can be applied to the synchronous reset flip-flop.
 
@@ -428,7 +428,7 @@ write_verilog -noattr dff_syncres_netlist.v
 
 ---
 
-🔹 19. SIMULATION FLOW
+## 🔹 19. SIMULATION FLOW
 
 The overall simulation process is:
 
@@ -472,7 +472,7 @@ Gate-Level Netlist
 
 ---
 
-🔹 21. OPTIMIZATION TECHNIQUES
+## 🔹 21. OPTIMIZATION TECHNIQUES
 
 During synthesis, Yosys performs different optimizations to obtain an efficient implementation.
 
@@ -491,7 +491,7 @@ Area + Power + Timing
 
 ---
 
-🔹 22. OBSERVATIONS
+## 🔹 22. OBSERVATIONS
 
 Observation 1
 
@@ -527,7 +527,7 @@ Yosys can synthesize RTL and map it to cells from the SKY130 library.
 
 ---
 
-🔹 23. CONCLUSION
+## 🔹 23. CONCLUSION
 
 Day 2 provided an understanding of timing libraries, standard cells, synthesis techniques and sequential logic.
 
@@ -539,6 +539,6 @@ The complete flow from RTL → Simulation → Synthesis → Technology Mapping �
 
 ---
 
-⭐ DAY 2 KEY LEARNING
+
 
 «RTL design is not only about writing Verilog. The RTL must be understood, simulated, synthesized and mapped to suitable standard cells using technology libraries.»
