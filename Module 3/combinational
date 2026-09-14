@@ -1,28 +1,201 @@
-# 🚀 Module 3 – Combinational Optimization
+###  🟦 MODULE 3 – COMBINATIONAL OPTIMIZATION
 
-This section demonstrates basic **combinational logic optimization** using **Yosys** and the **SKY130 standard-cell library**.
+## 🔹 1. Overview
 
----
+Combinational optimization is the process of simplifying combinational logic to obtain an efficient hardware implementation.
 
-## 🎯 Objective
+The main goal is to reduce unnecessary logic while maintaining the same functionality.
 
-The objective is to understand how **Yosys optimizes combinational RTL** and maps the optimized logic to **SKY130 standard cells**.
-
-### 📂 Examples Used
-
-* `opt_check.v`
-* `opt_check2.v`
-* `opt_check3.v`
-
-> ℹ️ **Note:** No simulation is required for these examples.
+In this module, Yosys is used to synthesize and optimize the Verilog design.
 
 ---
 
-# 1️⃣ `opt_check`
+🔹 2. What is Combinational Logic?
 
-## 🧩 RTL
+Combinational logic is a type of digital logic where the output depends only on the present input values.
 
-```verilog
-module opt_check(input a, input b, output y);
-    assign y = a & b;
-endmodule
+It does not store previous input values and does not require a clock.
+
+Examples
+
+- AND gate
+- OR gate
+- NOT gate
+- Multiplexer
+- Decoder
+- Encoder
+- Adder
+
+The logic can be represented using Boolean expressions and implemented using logic gates.
+
+---
+
+🔹 3. What is Combinational Optimization?
+
+Combinational optimization means simplifying the logic circuit without changing its required output.
+
+For example, unnecessary logic operations can be removed or simplified during synthesis.
+
+Main objectives
+
+- Reduce the number of logic gates
+- Reduce hardware area
+- Reduce unnecessary logic
+- Improve circuit efficiency
+- Maintain the same logical functionality
+
+---
+
+🔹 4. Why is Optimization Required?
+
+Optimization is important because a simpler circuit can require fewer hardware resources.
+
+The synthesis tool analyzes the RTL design and tries to generate an efficient gate-level implementation.
+
+Optimization can help in reducing:
+
+- Area
+- Logic complexity
+- Power consumption
+- Propagation delay
+
+The exact improvement depends on the RTL design and the target standard-cell library.
+
+---
+
+🔹 5. Combinational Optimization Using Yosys
+
+Yosys is an open-source RTL synthesis tool.
+
+It converts Verilog RTL into a gate-level representation and performs several optimization steps.
+
+A basic synthesis flow is:
+
+Verilog RTL
+     ↓
+Yosys
+     ↓
+RTL Processing
+     ↓
+Logic Optimization
+     ↓
+Technology Mapping
+     ↓
+Gate-Level Netlist
+
+---
+
+🔹 6. Design Used – "opt_check.v"
+
+In this module, the combinational optimization example is implemented using the Verilog file:
+
+opt_check.v
+
+The design is synthesized using Yosys to observe how the RTL is processed and optimized.
+
+Verilog Design
+
+// opt_check.v
+
+// Paste your actual opt_check.v code here
+
+«Note: The above section should contain the exact code used in your own "opt_check.v" file.»
+
+---
+
+🔹 7. Yosys Synthesis
+
+The "opt_check.v" design can be processed using Yosys.
+
+A typical synthesis flow includes:
+
+read_verilog
+proc
+opt
+techmap
+opt
+abc
+clean
+stat
+
+These steps allow Yosys to read the RTL, process the logic, optimize the design and generate synthesis statistics.
+
+---
+
+🔹 8. Optimization Process
+
+The optimization process removes or simplifies logic wherever possible while preserving the functionality of the design.
+
+The general flow is:
+
+RTL Design
+    ↓
+Read Verilog
+    ↓
+Convert RTL
+    ↓
+Optimize Logic
+    ↓
+Technology Mapping
+    ↓
+Final Netlist
+
+---
+
+🔹 9. Synthesis Result
+
+After running the Yosys synthesis flow, the synthesis statistics can be observed from the terminal output.
+
+The result can be used to understand:
+
+- Number of wires
+- Number of wire bits
+- Number of cells
+- Types of cells used
+- Overall hardware structure
+
+📸 Yosys Synthesis Output
+
+Add your screenshot here:
+
+![Yosys Synthesis Result](./images/opt_check.png)
+
+---
+
+🔹 10. SKY130 Standard Cell Library
+
+The optimized combinational logic can be mapped to standard cells from the SKY130 technology library.
+
+Technology mapping converts the optimized logic into cells that are available in the target library.
+
+Examples of standard cells include:
+
+- AND gates
+- OR gates
+- Inverters
+- Multiplexers
+- Flip-flops
+
+This allows the RTL design to be represented using real standard-cell implementations.
+
+---
+
+🔹 11. Observations
+
+From the synthesis and optimization process:
+
+- The Verilog RTL is converted into a synthesized representation.
+- Yosys performs logic optimization before technology mapping.
+- Unnecessary logic can be simplified during optimization.
+- The optimized design can be mapped to standard cells.
+- Synthesis statistics help in understanding the hardware generated from the RTL.
+
+---
+
+🔹 12. Conclusion
+
+In this module, the concept of combinational optimization was studied using Yosys.
+
+The "opt_check.v" design was processed through the synthesis flow and the optimization results were observed.
+
+This demonstrates how an RTL description can be converted into an optimized hardware implementation while maintaining the required functionality.
