@@ -1,4 +1,4 @@
-### Smart Street Light Controller
+## Smart Street Light Controller
 
 ## Project Overview
 
