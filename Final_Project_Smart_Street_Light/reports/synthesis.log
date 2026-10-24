@@ -652,6 +652,6 @@ Found and reported 0 problems.
 8.2. Executing DEMUXMAP pass.
 Dumping module `\smart_street_light'.
 
-End of script. Logfile hash: d8ff912b99, CPU: user 0.07s system 0.02s, MEM: 12.88 MB peak
+End of script. Logfile hash: d8ff912b99, CPU: user 0.10s system 0.01s, MEM: 13.00 MB peak
 Yosys 0.33 (git sha1 2584903a060)
-Time spent: 39% 1x abc (0 sec), 16% 18x opt_expr (0 sec), ...
+Time spent: 40% 1x abc (0 sec), 15% 18x opt_expr (0 sec), ...
