@@ -1,78 +1,96 @@
 `timescale 1ns/1ps
-
 module tb_smart_street_light;
-
-    reg clk;
-    reg reset;
-    reg night;
-    reg vehicle;
-
-    wire [1:0] light_mode;
-
-    // Instantiate the design under test
-    smart_street_light uut (
+ 
+    reg  clk = 0;
+    reg  rst = 1;
+    reg  dark = 0;
+    reg  motion = 0;
+    wire lamp_on;
+    wire high_intensity;
+    integer errors = 0;
+ 
+    smart_street_light #(
+        .HOLD_CYCLES(5)
+    ) dut (
         .clk(clk),
-        .reset(reset),
-        .night(night),
-        .vehicle(vehicle),
-        .light_mode(light_mode)
+        .rst(rst),
+        .dark(dark),
+        .motion(motion),
+        .lamp_on(lamp_on),
+        .high_intensity(high_intensity)
     );
-
-    // Clock generation: 10 ns period
+ 
     always #5 clk = ~clk;
-
+ 
     initial begin
         $dumpfile("smart_street_light.vcd");
         $dumpvars(0, tb_smart_street_light);
-
-        $monitor(
-            "Time=%0t reset=%b night=%b vehicle=%b light_mode=%b",
-            $time, reset, night, vehicle, light_mode
-        );
-
-        // Initialize inputs
-        clk = 0;
-        reset = 1;
-        night = 0;
-        vehicle = 0;
-
-        // Release reset
-        #12 reset = 0;
-
-        // Test 1: Daytime - lights OFF
-        #10;
-        if (light_mode !== 2'b00)
-            $fatal(1, "FAIL: Expected DAY mode");
-
-        // Test 2: Nighttime without vehicle - DIM
-        night = 1;
-        #10;
-        if (light_mode !== 2'b01)
-            $fatal(1, "FAIL: Expected NIGHT mode");
-
-        // Test 3: Vehicle detected - BRIGHT
-        vehicle = 1;
-        #10;
-        if (light_mode !== 2'b10)
-            $fatal(1, "FAIL: Expected BRIGHT mode");
-
-        // Test 4: Vehicle leaves - DIM
-        vehicle = 0;
-        #10;
-        if (light_mode !== 2'b01)
-            $fatal(1, "FAIL: Expected NIGHT mode after vehicle leaves");
-
-        // Test 5: Daytime returns - lights OFF
-        night = 0;
-        #10;
-        if (light_mode !== 2'b00)
-            $fatal(1, "FAIL: Expected DAY mode");
-
-        $display("--------------------------------");
-        $display("ALL TESTS PASSED!");
-        $display("--------------------------------");
-
+ 
+        // Reset, then daylight: lamp must be off
+        repeat (2) @(negedge clk);
+        rst = 0;
+        @(negedge clk);
+        if (lamp_on !== 0 || high_intensity !== 0) begin
+            $display("FAIL: lamp should be off in daylight");
+            errors = errors + 1;
+        end
+ 
+        // Dark, no motion: dim
+        dark = 1;
+        @(negedge clk);
+        if (lamp_on !== 1 || high_intensity !== 0) begin
+            $display("FAIL: lamp should be dim when dark");
+            errors = errors + 1;
+        end
+ 
+        // Motion: bright
+        motion = 1;
+        @(negedge clk);
+        if (lamp_on !== 1 || high_intensity !== 1) begin
+            $display("FAIL: lamp should be bright on motion");
+            errors = errors + 1;
+        end
+ 
+        // Motion removed: bright held for 4 cycles, dim on the 5th
+        motion = 0;
+        repeat (4) @(negedge clk);
+        if (high_intensity !== 1) begin
+            $display("FAIL: bright level should be held during hold time");
+            errors = errors + 1;
+        end
+        @(negedge clk);
+        if (lamp_on !== 1 || high_intensity !== 0) begin
+            $display("FAIL: lamp should return to dim after hold time");
+            errors = errors + 1;
+        end
+ 
+        // Daylight returns: off
+        dark = 0;
+        @(negedge clk);
+        if (lamp_on !== 0 || high_intensity !== 0) begin
+            $display("FAIL: lamp should turn off when not dark");
+            errors = errors + 1;
+        end
+ 
+        // Dark and motion together from OFF: straight to bright
+        dark = 1;
+        motion = 1;
+        @(negedge clk);
+        if (lamp_on !== 1 || high_intensity !== 1) begin
+            $display("FAIL: OFF to BRIGHT transition did not occur");
+            errors = errors + 1;
+        end
+ 
+        if (errors == 0)
+            $display("PASS: all smart_street_light checks passed");
+        else
+            $display("FAIL: %0d check(s) failed", errors);
         $finish;
     end
-
+ 
+    initial begin
+        $monitor("time=%0t rst=%b dark=%b motion=%b lamp_on=%b high=%b",
+                 $time, rst, dark, motion, lamp_on, high_intensity);
+    end
+ 
 endmodule
