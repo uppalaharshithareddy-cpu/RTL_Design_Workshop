@@ -1,72 +1,79 @@
-module smart_street_light (
-    input wire clk,
-    input wire reset,
-    input wire night,
-    input wire vehicle,
-    output reg [1:0] light_mode
+module smart_street_light #(
+    parameter HOLD_CYCLES = 5
+)(
+    input  wire clk,
+    input  wire rst,
+    input  wire dark,
+    input  wire motion,
+    output reg  lamp_on,
+    output reg  high_intensity
 );
-
-    // State encoding
-    localparam DAY    = 2'b00;
-    localparam NIGHT  = 2'b01;
-    localparam BRIGHT = 2'b10;
-
-    reg [1:0] current_state;
-    reg [1:0] next_state;
-
-    // State register with asynchronous active-high reset
-    always @(posedge clk or posedge reset) begin
-        if (reset)
-            current_state <= DAY;
-        else
-            current_state <= next_state;
+ 
+    localparam [1:0] S_OFF    = 2'b00;
+    localparam [1:0] S_DIM    = 2'b01;
+    localparam [1:0] S_BRIGHT = 2'b10;
+ 
+    localparam COUNTER_WIDTH = $clog2(HOLD_CYCLES + 1);
+ 
+    reg [1:0] state;
+    reg [COUNTER_WIDTH-1:0] hold_cnt;
+ 
+    // State register, next-state logic and hold counter
+    always @(posedge clk) begin
+        if (rst) begin
+            state    <= S_OFF;
+            hold_cnt <= 0;
+        end
+        else begin
+            case (state)
+                S_OFF: begin
+                    hold_cnt <= 0;
+                    if (dark)
+                        state <= motion ? S_BRIGHT : S_DIM;
+                end
+                S_DIM: begin
+                    hold_cnt <= 0;
+                    if (!dark)
+                        state <= S_OFF;
+                    else if (motion)
+                        state <= S_BRIGHT;
+                end
+                S_BRIGHT: begin
+                    if (!dark) begin
+                        state    <= S_OFF;
+                        hold_cnt <= 0;
+                    end
+                    else if (motion) begin
+                        hold_cnt <= 0;
+                    end
+                    else if (hold_cnt >= HOLD_CYCLES - 1) begin
+                        state    <= S_DIM;
+                        hold_cnt <= 0;
+                    end
+                    else begin
+                        hold_cnt <= hold_cnt + 1'b1;
+                    end
+                end
+                default: begin
+                    state    <= S_OFF;
+                    hold_cnt <= 0;
+                end
+            endcase
+        end
     end
-
-    // Next-state logic
+ 
+    // Moore output decoder
     always @(*) begin
-        case (current_state)
-
-            DAY: begin
-                if (night)
-                    next_state = NIGHT;
-                else
-                    next_state = DAY;
+        lamp_on        = 1'b0;
+        high_intensity = 1'b0;
+        case (state)
+            S_DIM:    lamp_on = 1'b1;
+            S_BRIGHT: begin
+                lamp_on        = 1'b1;
+                high_intensity = 1'b1;
             end
-
-            NIGHT: begin
-                if (!night)
-                    next_state = DAY;
-                else if (vehicle)
-                    next_state = BRIGHT;
-                else
-                    next_state = NIGHT;
-            end
-
-            BRIGHT: begin
-                if (!night)
-                    next_state = DAY;
-                else if (!vehicle)
-                    next_state = NIGHT;
-                else
-                    next_state = BRIGHT;
-            end
-
-            default: next_state = DAY;
-
+            default: ;
         endcase
     end
-
-    // Output logic
-    always @(*) begin
-        case (current_state)
-
-            DAY:    light_mode = 2'b00;
-            NIGHT:  light_mode = 2'b01;
-            BRIGHT: light_mode = 2'b10;
-
-            default: light_mode = 2'b00;
-
-        endcase
-    end
-
+ 
 endmodule
