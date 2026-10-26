@@ -6,6 +6,7 @@ module smart_street_light (
     output reg [1:0] light_mode
 );
 
+    // State encoding
     localparam DAY    = 2'b00;
     localparam NIGHT  = 2'b01;
     localparam BRIGHT = 2'b10;
@@ -13,7 +14,7 @@ module smart_street_light (
     reg [1:0] current_state;
     reg [1:0] next_state;
 
-    // State register
+    // State register with asynchronous active-high reset
     always @(posedge clk or posedge reset) begin
         if (reset)
             current_state <= DAY;
@@ -24,6 +25,7 @@ module smart_street_light (
     // Next-state logic
     always @(*) begin
         case (current_state)
+
             DAY: begin
                 if (night)
                     next_state = NIGHT;
@@ -50,16 +52,20 @@ module smart_street_light (
             end
 
             default: next_state = DAY;
+
         endcase
     end
 
-    // Light output logic
+    // Output logic
     always @(*) begin
         case (current_state)
+
             DAY:    light_mode = 2'b00;
             NIGHT:  light_mode = 2'b01;
             BRIGHT: light_mode = 2'b10;
+
             default: light_mode = 2'b00;
+
         endcase
     end
 
