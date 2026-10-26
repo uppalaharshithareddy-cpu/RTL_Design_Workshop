@@ -6,8 +6,10 @@ module tb_smart_street_light;
     reg reset;
     reg night;
     reg vehicle;
+
     wire [1:0] light_mode;
 
+    // Instantiate the design under test
     smart_street_light uut (
         .clk(clk),
         .reset(reset),
@@ -16,20 +18,25 @@ module tb_smart_street_light;
         .light_mode(light_mode)
     );
 
+    // Clock generation: 10 ns period
     always #5 clk = ~clk;
 
     initial begin
         $dumpfile("smart_street_light.vcd");
         $dumpvars(0, tb_smart_street_light);
 
-        $monitor("Time=%0t reset=%b night=%b vehicle=%b light_mode=%b",
-                 $time, reset, night, vehicle, light_mode);
+        $monitor(
+            "Time=%0t reset=%b night=%b vehicle=%b light_mode=%b",
+            $time, reset, night, vehicle, light_mode
+        );
 
+        // Initialize inputs
         clk = 0;
         reset = 1;
         night = 0;
         vehicle = 0;
 
+        // Release reset
         #12 reset = 0;
 
         // Test 1: Daytime - lights OFF
@@ -55,15 +62,15 @@ module tb_smart_street_light;
         if (light_mode !== 2'b01)
             $fatal(1, "FAIL: Expected NIGHT mode after vehicle leaves");
 
-        // Test 5: Daytime returns - OFF
+        // Test 5: Daytime returns - lights OFF
         night = 0;
         #10;
         if (light_mode !== 2'b00)
             $fatal(1, "FAIL: Expected DAY mode");
 
-        $display("================================");
+        $display("--------------------------------");
         $display("ALL TESTS PASSED!");
-        $display("================================");
+        $display("--------------------------------");
 
         $finish;
     end
